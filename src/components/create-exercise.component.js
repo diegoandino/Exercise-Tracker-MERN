@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
+import axios from 'axios';
 import "react-datepicker/dist/react-datepicker.css";
 
 export default class CreateExercise extends Component {
@@ -23,12 +24,16 @@ export default class CreateExercise extends Component {
     }
 
     componentDidMount() {
-        this.setState({
-            users: ['test user'],
-            username: 'test user'
+        axios.get('http://localhost:5000/users/')
+        .then(response => {
+            if (response.data.length > 0) {
+                this.setState({
+                    // Only return the users username
+                    users: response.data.map(user => user.username),
+                    username: response.data[0].username
+                });
+            }
         })
-
-        console.log('Did mount')
     }
 
     // Sets username value to the textbox
@@ -59,7 +64,7 @@ export default class CreateExercise extends Component {
         });
     }
 
-    
+    // Runs when creating new exercise
     onSubmit(e) {
         e.preventDefault();
 
@@ -71,6 +76,9 @@ export default class CreateExercise extends Component {
         }
 
         console.log(exercise);
+
+        axios.post('http://localhost:5000/exercises/add', exercise)
+        .then(res => console.log(res.data));
 
         // Once exercise is submitted, go back to Home
         window.location = '/';
