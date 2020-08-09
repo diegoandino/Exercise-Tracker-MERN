@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import axios from 'axios';
 
 export default class CreateUser extends Component {
     constructor(props) {
@@ -20,6 +21,7 @@ export default class CreateUser extends Component {
         });
     }
 
+    // Runs when creating new user
     onSubmit(e) {
         e.preventDefault();
 
@@ -28,6 +30,9 @@ export default class CreateUser extends Component {
         }
 
         console.log(user);
+
+        axios.post('http://localhost:5000/users/add', user)
+        .then(res => console.log(res.data));
 
         // Once exercise is submitted, go back to Home
         this.setState({

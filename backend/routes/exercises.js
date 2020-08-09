@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const Exercise = require('../models/exercise.model');
+let Exercise = require('../models/exercise.model');
 
 // This model will change
 let exercise = require('../models/exercise.model');
